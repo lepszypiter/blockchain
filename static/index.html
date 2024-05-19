@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Blockchain</title>
+    <script>
+        async function addBlock() {
+            const data = document.getElementById("blockData").value;
+            const response = await fetch('/add_block', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ data })
+            });
+            const result = await response.json();
+            alert(result.message);
+        }
+
+        async function getChain() {
+            const response = await fetch('/chain');
+            const result = await response.json();
+            document.getElementById("chain").innerText = JSON.stringify(result.chain, null, 2);
+        }
+    </script>
+</head>
+<body>
+    <h1>Simple Blockchain</h1>
+    <div>
+        <h2>Add Block</h2>
+        <input type="text" id="blockData" placeholder="Block Data">
+        <button onclick="addBlock()">Add Block</button>
+    </div>
+    <div>
+        <h2>Blockchain</h2>
+        <button onclick="getChain()">Get Chain</button>
+        <pre id="chain"></pre>
+    </div>
+</body>
+</html>
